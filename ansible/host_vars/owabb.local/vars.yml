@@ -1,3 +1,4 @@
+user_default_groups: "debian,adm,kmem,dialout,cdrom,floppy,audio,dip,video,plugdev,users,systemd-journal,i2c,bluetooth,netdev,cloud9ide,xenomai,weston-launch,tisdk,spi,admin,eqep,pwm,gpio"
 beaglebone: true
 beaglebone_wifi_ssid: "owabb"
 beaglebone_wifi_password: "3t^jWQQ^SZ7^"

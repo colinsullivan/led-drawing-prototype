@@ -26,7 +26,6 @@
     - bb-wl18xx-bluetooth
     - apache2
     - cloud9.socket
-    - lightdm
 
 - name: admin nopasswd
   copy:
