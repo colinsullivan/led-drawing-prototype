@@ -1,0 +1,29 @@
+---
+- name: Install packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - vim-nox
+    - tmux
+    - xsel
+    - liblo-tools
+- name: colin
+  user:
+    append: yes
+    generate_ssh_key: yes
+    name: colin
+    groups: "{{ user_default_groups }}"
+    shell: /bin/bash
+- name: colin ssh key
+  copy:
+    force: no
+    src: colin-id_rsa.pub
+    dest: /home/colin/.ssh/authorized_keys
+    owner: colin
+    group: colin
+    mode: 0600
+- name: beaglebone setup
+  include_tasks: beaglebone.yml
+  when: beaglebone

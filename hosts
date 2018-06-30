@@ -1,0 +1,10 @@
+#owapi.local ansible_ssh_user=colin
+#owabb.local ansible_ssh_user=root
+owabbx15.local ansible_ssh_user=root
+
+#[raspberrypi]
+#owapi.local
+
+[beaglebone]
+owabbx15.local
+#owabb.local

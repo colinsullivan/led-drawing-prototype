@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - include_role:
+        name: base
+    - include_role:
+        name: geerlingguy.nodejs
+    - include_role:
+        name: colinsullivan.fadecandy
+#- import_playbook: site_deploy.yml
