@@ -23,9 +23,19 @@ const server = new WebSocket.Server({
 
 const fcController = new FadecandyController();
 
-var pixelBuffer = createOPCStrand(NUM_PIXELS);
+const FPS = 30;
+const FRAME_DUR_MS = 1000 / FPS;
+const LOOP_DUR_MS = 10000;
+const LOOP_NUM_FRAMES = Math.floor(LOOP_DUR_MS / FRAME_DUR_MS);
 
+var loopFrameIndex = 0;
+var pixelBuffer = createOPCStrand(NUM_PIXELS);
 var pixelTweens = new Array(NUM_PIXELS);
+var loopPixelBuffers = new Array(LOOP_NUM_FRAMES);
+var i;
+for (i = 0; i < loopPixelBuffers.length; i++) {
+  loopPixelBuffers[i] = createOPCStrand(NUM_PIXELS);
+}
 
 function ledAddressToPixelBufferIndex (addr) {
   let col = addr[0], row = addr[1];
@@ -73,6 +83,12 @@ server.on('connection', function (ws) {
           tweenState.g,
           tweenState.b
         );
+        loopPixelBuffers[loopFrameIndex].setPixel(
+          tweenState.pixelIndex,
+          tweenState.r,
+          tweenState.g,
+          tweenState.b
+        );
       })
       .start();
     pixelTweens[pixelIndex] = pixelTween;
@@ -85,6 +101,10 @@ console.log("Hello!");
 
 function draw () {
   TWEEN.update();
-  fcController.writePixels(pixelBuffer);
+  fcController.writePixels(loopPixelBuffers[loopFrameIndex]);
+  loopFrameIndex += 1;
+  if (loopFrameIndex >= LOOP_NUM_FRAMES) {
+    loopFrameIndex = 0;
+  }
 }
-setInterval(draw, 30);
+setInterval(draw, FRAME_DUR_MS);
