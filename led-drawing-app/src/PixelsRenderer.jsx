@@ -11,6 +11,10 @@ import React from 'react';
 
 import { ROWS, COLS } from './constants';
 
+const activeLEDStyles = {
+  background: '#33ee33'
+};
+
 class PixelsRenderer extends React.Component {
   render () {
     var containerStyles = {
@@ -37,8 +41,16 @@ class PixelsRenderer extends React.Component {
       let cols = [], j;
 
       for (j = 0; j < COLS; j++) {
+        let style = pixelStyles;
+        if (
+          this.props.isTouching
+          && this.props.activeLED[0] === i
+          && this.props.activeLED[1] === j
+        ) {
+          style = Object.assign({}, pixelStyles, activeLEDStyles);
+        }
         cols.push(
-          <div key={`pixel_${i}_${j}`}style={pixelStyles}></div>
+          <div key={`pixel_${i}_${j}`}style={style}></div>
         );
       }
       

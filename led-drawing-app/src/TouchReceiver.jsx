@@ -18,6 +18,9 @@ class TouchReceiver extends React.Component {
 
     this.touchIsDown = false;
 
+    this.colsPerPixel = 0;
+    this.rowsPerPixel = 0;
+
     this.onTouchStart = (e) => {
       this.handleTouchStart(e);
     };
@@ -31,6 +34,9 @@ class TouchReceiver extends React.Component {
 
   componentDidMount () {
     document.addEventListener('ontouchend', this.onTouchEnd);
+
+    this.colsPerPixel = COLS / this.props.width;
+    this.rowsPerPixel = ROWS / this.props.height;
   }
 
   componentWillUnmount () {
@@ -41,6 +47,7 @@ class TouchReceiver extends React.Component {
     e.preventDefault();
     e.stopPropagation();
     this.touchIsDown = false;
+    this.props.handleTouchingLEDEnded();
   }
 
   handleTouchStart (e) {
@@ -55,8 +62,26 @@ class TouchReceiver extends React.Component {
 
     let firstTouch = e.touches[0];
 
-    console.log("firstTouch");
-    console.log(firstTouch);
+    // coordinates within our container
+    let x = firstTouch.clientX;
+    let y = firstTouch.clientY;
+
+    // led coordinates
+    let i, j;
+    j = Math.round(x * this.colsPerPixel);
+    i = Math.round(y * this.rowsPerPixel);
+
+    // bounds
+    i = Math.max(
+      0,
+      Math.min(ROWS - 1, i)
+    );
+    j = Math.max(
+      0,
+      Math.min(COLS - 1, j)
+    );
+
+    this.props.handleTouchingLED(i, j);
   }
 
   render () {
