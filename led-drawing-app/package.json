@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tweenjs/tween.js": "^17.2.0",
     "opc": "^1.1.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -11,9 +12,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start_server": "node build_server/server_main.js",
     "dev_start_server": "babel-node src/server_main.js",
     "build_react": "react-scripts build",
-    "build_server": "babel src/server_main.js -o build_server/server_main.js",
+    "build_server": "babel src/common -d build_server/common && babel src/server -d build_server/server && babel src/server_main.js -o build_server/server_main.js",
     "build": "npm run build_react && npm run build_server",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
