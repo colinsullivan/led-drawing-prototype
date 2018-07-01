@@ -10,6 +10,7 @@
 
 import WebSocket from 'ws';
 import createOPCStrand from 'opc/strand';
+import TWEEN from '@tweenjs/tween.js';
 
 import FadecandyController from './server/FadecandyController';
 
@@ -42,19 +43,48 @@ function all_off (pixelBuffer) {
   }
 }
 
+const pixelStartState = {
+  r: 100,
+  g: 255,
+  b: 100
+};
+const pixelEndState = {
+  r: 0,
+  g: 0,
+  b: 0
+};
+
 server.on('connection', function (ws) {
   console.log("connection!");
   ws.on('message', function (msg) {
     let data = JSON.parse(msg);
     let pixelIndex = ledAddressToPixelBufferIndex(data.activeLED);
-    all_off(pixelBuffer);
-    pixelBuffer.setPixel(pixelIndex, 100, 255, 100);
+    let pixelTween = pixelTweens[pixelIndex];
+    if (pixelTween) {
+      pixelTween.stop();
+    }
+    pixelTween = new TWEEN.Tween(Object.assign({pixelIndex}, pixelStartState))
+      .to(Object.assign({pixelIndex}, pixelEndState), 2000)
+      .easing(TWEEN.Easing.Quadratic.Out)
+      .onUpdate(function (tweenState) {
+        pixelBuffer.setPixel(
+          tweenState.pixelIndex,
+          tweenState.r,
+          tweenState.g,
+          tweenState.b
+        );
+      })
+      .start();
+    pixelTweens[pixelIndex] = pixelTween;
+    //all_off(pixelBuffer);
+    //pixelBuffer.setPixel(pixelIndex, 100, 255, 100);
   });
 });
 
 console.log("Hello!");
 
 function draw () {
+  TWEEN.update();
   fcController.writePixels(pixelBuffer);
 }
 setInterval(draw, 30);

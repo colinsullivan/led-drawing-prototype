@@ -67,7 +67,9 @@ class App extends Component {
       activeLED: [i, j]
     });
     //console.log(`${i},${j}`);
-    this.websocket.send(JSON.stringify(this.state));
+    if (this.websocket && this.websocket.readyState === WebSocket.OPEN) {
+      this.websocket.send(JSON.stringify(this.state));
+    }
   }
   handleTouchingLEDEnded() {
     this.setState({
