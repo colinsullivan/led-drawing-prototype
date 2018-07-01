@@ -1,0 +1,22 @@
+- name: clone / update code
+  git:
+    repo: https://github.com/colinsullivan/led-drawing-prototype.git
+    dest: "{{ deploy_dir }}"
+    clone: yes
+    update: yes
+  register: gitrepo
+
+- name: npm install
+  shell: npm install
+  register: npm_finished
+  failed_when: '"ERR!" in npm_finished.stderr'
+  when: gitrepo.changed
+  args:
+    chdir: "{{ deploy_dir }}/led-drawing-app"
+
+- name: build app
+  shell: npm run build
+  when: gitrepo.changed
+  args:
+    chdir: "{{ deploy_dir }}/led-drawing-app"
+

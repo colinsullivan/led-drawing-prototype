@@ -21,6 +21,8 @@
     enabled: no
     state: stopped
   with_items:
+    - bonescript
+    - bonescript.socket
     - bonescript-autorun
     - bluetooth
     - bb-wl18xx-bluetooth
