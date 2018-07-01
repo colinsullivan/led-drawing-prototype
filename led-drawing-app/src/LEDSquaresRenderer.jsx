@@ -1,5 +1,5 @@
 /**
- *  @file       PixelsRenderer.jsx
+ *  @file       LEDSquaresRenderer.jsx
  *
  *
  *  @author     Colin Sullivan <colin [at] colin-sullivan.net>
@@ -15,7 +15,7 @@ const activeLEDStyles = {
   background: '#33ee33'
 };
 
-class PixelsRenderer extends React.Component {
+class LEDSquaresRenderer extends React.Component {
   render () {
     var containerStyles = {
       display: 'flex',
@@ -66,4 +66,4 @@ class PixelsRenderer extends React.Component {
   }
 }
 
-export default PixelsRenderer;
+export default LEDSquaresRenderer;

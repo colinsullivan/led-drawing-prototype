@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import PixelsRenderer from './PixelsRenderer.jsx';
+import LEDSquaresRenderer from './LEDSquaresRenderer.jsx';
 import TouchReceiver from './TouchReceiver.jsx';
 
 const containerStyle = {
@@ -41,7 +41,7 @@ class App extends Component {
           handleTouchingLED={(i, j) => this.handleTouchingLED(i, j)}
           handleTouchingLEDEnded={() => this.handleTouchingLEDEnded()}
         />
-        <PixelsRenderer
+        <LEDSquaresRenderer
           height={touchAreaHeight}
           width={touchAreaWidth}
           isTouching={this.state.isTouching}

@@ -33,14 +33,14 @@ class TouchReceiver extends React.Component {
   }
 
   componentDidMount () {
-    document.addEventListener('ontouchend', this.onTouchEnd);
+    document.addEventListener('touchend', this.onTouchEnd);
 
     this.colsPerPixel = COLS / this.props.width;
     this.rowsPerPixel = ROWS / this.props.height;
   }
 
   componentWillUnmount () {
-    document.removeEventListener('ontouchend', this.onTouchEnd);
+    document.removeEventListener('touchend', this.onTouchEnd);
   }
 
   handleTouchEnd (e) {
