@@ -9,7 +9,7 @@
  **/
 import React from 'react';
 
-import { ROWS, COLS } from './constants';
+import { ROWS, COLS } from './common/constants';
 
 const activeLEDStyles = {
   background: '#33ee33'

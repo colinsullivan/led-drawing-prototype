@@ -11,9 +11,9 @@
 import WebSocket from 'ws';
 import createOPCStrand from 'opc/strand';
 
-import FadecandyController from './FadecandyController';
+import FadecandyController from './server/FadecandyController';
 
-import { WEBSOCKET_PORT, COLS, ROWS } from './constants';
+import { WEBSOCKET_PORT, COLS, ROWS } from './common/constants';
 
 const NUM_PIXELS = COLS * ROWS;
 const server = new WebSocket.Server({
@@ -23,6 +23,8 @@ const server = new WebSocket.Server({
 const fcController = new FadecandyController();
 
 var pixelBuffer = createOPCStrand(NUM_PIXELS);
+
+var pixelTweens = new Array(NUM_PIXELS);
 
 function ledAddressToPixelBufferIndex (addr) {
   let col = addr[0], row = addr[1];
@@ -44,11 +46,7 @@ server.on('connection', function (ws) {
   console.log("connection!");
   ws.on('message', function (msg) {
     let data = JSON.parse(msg);
-    console.log("data");
-    console.log(data);
     let pixelIndex = ledAddressToPixelBufferIndex(data.activeLED);
-    console.log("pixelIndex");
-    console.log(pixelIndex);
     all_off(pixelBuffer);
     pixelBuffer.setPixel(pixelIndex, 100, 255, 100);
   });

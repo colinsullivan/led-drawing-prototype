@@ -10,7 +10,7 @@
 
 import React from 'react';
 
-import { ROWS, COLS } from './constants';
+import { ROWS, COLS } from './common/constants';
 
 class TouchReceiver extends React.Component {
   constructor(props) {

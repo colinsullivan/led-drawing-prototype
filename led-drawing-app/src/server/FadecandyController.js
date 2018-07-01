@@ -15,7 +15,7 @@ import {
   FADECANDY_DISCONNECTED,
   FADECANDY_CONNECTED,
   FADECANDY_CONNECTING
-} from './actionTypes'
+} from '../common/actionTypes'
 
 /**
  *  @class        FadecandyController

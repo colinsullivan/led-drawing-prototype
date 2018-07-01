@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import LEDSquaresRenderer from './LEDSquaresRenderer.jsx';
 import TouchReceiver from './TouchReceiver.jsx';
-import { WEBSOCKET_PORT } from './constants';
+import { WEBSOCKET_PORT } from './common/constants';
 
 const containerStyle = {
   width: '100%',
