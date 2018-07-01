@@ -5,12 +5,49 @@
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "ws": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev_start_server": "babel-node src/server_main.js",
+    "build_react": "react-scripts build",
+    "build_server": "babel src/server_main.js -o build_server/server_main.js",
+    "build": "npm run build_react && npm run build_server",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "impliedStrict": true
+      }
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "mocha": true,
+      "jsx": true
+    },
+    "rules": {
+      "no-console": 0,
+      "no-use-before-define": "error",
+      "block-scoped-var": "error",
+      "no-case-declarations": 0
+    }
   }
 }

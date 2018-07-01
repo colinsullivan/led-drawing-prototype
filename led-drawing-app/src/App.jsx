@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
+
 import LEDSquaresRenderer from './LEDSquaresRenderer.jsx';
 import TouchReceiver from './TouchReceiver.jsx';
+import { WEBSOCKET_PORT } from './constants';
 
 const containerStyle = {
   width: '100%',
@@ -9,7 +11,7 @@ const containerStyle = {
   position: 'relative'
 };
 
-const touchAreaHeight = 640;
+const touchAreaHeight = 512;
 const touchAreaWidth = 1024;
 
 class App extends Component {
@@ -20,6 +22,44 @@ class App extends Component {
       isTouching: false,
       activeLED: [0, 0]
     };
+
+    this.websocket = null;
+  }
+  openWebsocket () {
+    this.websocket = new WebSocket(
+      `ws://${window.location.hostname}:${WEBSOCKET_PORT}`
+    );
+
+    this.websocket.onopen = () => {
+      this.handleWebSocketOpened();
+    };
+
+    this.websocket.onmessage = (msg) => {
+      this.handleWebSocketMessage(msg);
+    };
+
+    this.websocket.onclose = () => {
+      this.handleWebSocketClosed();
+    };
+  }
+  componentDidMount () {
+    this.openWebsocket();
+  }
+
+  handleWebSocketClosed () {
+    console.log("websocket closed...");
+    setTimeout(() => {
+      console.log("Reconnecting...");
+      this.openWebsocket();
+    }, 1000);
+  }
+
+  handleWebSocketOpened () {
+    console.log("ws opened");
+  }
+  handleWebSocketMessage (msg) {
+    console.log("msg");
+    console.log(msg);
   }
   handleTouchingLED(i, j) {
     this.setState({
