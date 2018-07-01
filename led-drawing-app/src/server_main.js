@@ -37,6 +37,11 @@ for (i = 0; i < loopPixelBuffers.length; i++) {
   loopPixelBuffers[i] = createOPCStrand(NUM_PIXELS);
 }
 
+var loopFrameDecayCoefs = new Array(LOOP_NUM_FRAMES);
+for (i = 0; i < loopFrameDecayCoefs.length; i++) {
+  loopFrameDecayCoefs[i] = 0.0;
+}
+
 function ledAddressToPixelBufferIndex (addr) {
   let col = addr[0], row = addr[1];
 
@@ -89,6 +94,9 @@ server.on('connection', function (ws) {
           tweenState.g,
           tweenState.b
         );
+
+        // since this loop frame was used, decay starts over
+        loopFrameDecayCoefs[loopFrameIndex] = 1.0;
       })
       .start();
     pixelTweens[pixelIndex] = pixelTween;
@@ -99,9 +107,25 @@ server.on('connection', function (ws) {
 
 console.log("Hello!");
 
+let buf, pixel, coef;
 function draw () {
+  buf = loopPixelBuffers[loopFrameIndex];
   TWEEN.update();
-  fcController.writePixels(loopPixelBuffers[loopFrameIndex]);
+  coef = Math.max(0.0, loopFrameDecayCoefs[loopFrameIndex] - 0.1);
+  loopFrameDecayCoefs[loopFrameIndex] = coef;
+
+  // decay this frame
+  for (i = 0; i < buf.length; i++) {
+    pixel = buf.getPixel(i);
+    buf.setPixel(
+      i,
+      pixel[0] * coef,
+      pixel[1] * coef,
+      pixel[2] * coef
+    );
+  }
+
+  fcController.writePixels(buf);
   loopFrameIndex += 1;
   if (loopFrameIndex >= LOOP_NUM_FRAMES) {
     loopFrameIndex = 0;
