@@ -35,12 +35,12 @@ class LEDSquaresRenderer extends React.Component {
     };
 
     var rows = [];
-    var i;
+    var j;
 
-    for (i = 0; i < ROWS; i++) {
-      let cols = [], j;
+    for (j = 0; j < ROWS; j++) {
+      let cols = [], i;
 
-      for (j = 0; j < COLS; j++) {
+      for (i = 0; i < COLS; i++) {
         let style = pixelStyles;
         if (
           this.props.isTouching
@@ -55,7 +55,7 @@ class LEDSquaresRenderer extends React.Component {
       }
       
       rows.push(
-        <div key={`row_${i}`} style={rowStyle}>{cols}</div>
+        <div key={`row_${j}`} style={rowStyle}>{cols}</div>
       );
     }
     return (

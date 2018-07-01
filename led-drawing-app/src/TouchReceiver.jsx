@@ -68,17 +68,17 @@ class TouchReceiver extends React.Component {
 
     // led coordinates
     let i, j;
-    j = Math.round(x * this.colsPerPixel);
-    i = Math.round(y * this.rowsPerPixel);
+    i = Math.round(x * this.colsPerPixel);
+    j = Math.round(y * this.rowsPerPixel);
 
     // bounds
     i = Math.max(
       0,
-      Math.min(ROWS - 1, i)
+      Math.min(COLS - 1, i)
     );
     j = Math.max(
       0,
-      Math.min(COLS - 1, j)
+      Math.min(ROWS - 1, j)
     );
 
     this.props.handleTouchingLED(i, j);

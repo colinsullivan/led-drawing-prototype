@@ -9,24 +9,54 @@
  **/
 
 import WebSocket from 'ws';
+import createOPCStrand from 'opc/strand';
 
-import { WEBSOCKET_PORT } from './constants';
+import FadecandyController from './FadecandyController';
 
+import { WEBSOCKET_PORT, COLS, ROWS } from './constants';
+
+const NUM_PIXELS = COLS * ROWS;
 const server = new WebSocket.Server({
   port: WEBSOCKET_PORT
 });
 
+const fcController = new FadecandyController();
+
+var pixelBuffer = createOPCStrand(NUM_PIXELS);
+
+function ledAddressToPixelBufferIndex (addr) {
+  let col = addr[0], row = addr[1];
+
+  return (
+    row * COLS
+    + col
+  );
+}
+
+function all_off (pixelBuffer) {
+  var i;
+  for (i = 0; i < pixelBuffer.length; i++) {
+    pixelBuffer.setPixel(i, 0, 0, 0);
+  }
+}
+
 server.on('connection', function (ws) {
   console.log("connection!");
   ws.on('message', function (msg) {
-    console.log("msg");
-    console.log(msg);
+    let data = JSON.parse(msg);
+    console.log("data");
+    console.log(data);
+    let pixelIndex = ledAddressToPixelBufferIndex(data.activeLED);
+    console.log("pixelIndex");
+    console.log(pixelIndex);
+    all_off(pixelBuffer);
+    pixelBuffer.setPixel(pixelIndex, 100, 255, 100);
   });
 });
 
 console.log("Hello!");
 
 function draw () {
-  
+  fcController.writePixels(pixelBuffer);
 }
 setInterval(draw, 30);
