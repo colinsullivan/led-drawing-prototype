@@ -19,6 +19,7 @@ class LEDSquaresRenderer extends React.Component {
   render () {
     var containerStyles = {
       display: 'flex',
+      background: '#444',
       flexDirection: 'column',
       width: this.props.width,
       height: this.props.height
@@ -29,7 +30,6 @@ class LEDSquaresRenderer extends React.Component {
       display: 'flex'
     };
     var pixelStyles = {
-      background: '#333333',
       flex: '1 0 auto',
       height: 'inherit'
     };

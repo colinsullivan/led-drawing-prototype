@@ -9,4 +9,37 @@ html, body, div#root {
   height: 100%;
   width: 100%;
   position: fixed;
+
+  background: #222;
+}
+
+@keyframes crazyText {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(45deg);
+  }
+
+  50% {
+    transform: rotate(-45deg);
+  }
+
+  75% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+
+.call-to-action-modal-text {
+  animation-name: crazyText;
+  animation-duration: 4s;
+
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+  animation-direction: alternate;
 }

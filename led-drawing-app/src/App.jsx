@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import LEDSquaresRenderer from './LEDSquaresRenderer.jsx';
 import TouchReceiver from './TouchReceiver.jsx';
+import CallToActionModal from './CallToActionModal.jsx';
 import { WEBSOCKET_PORT } from './common/constants';
 
 const containerStyle = {
@@ -20,7 +21,8 @@ class App extends Component {
 
     this.state = {
       isTouching: false,
-      activeLED: [0, 0]
+      activeLED: [0, 0],
+      motionSensor: 0
     };
 
     this.websocket = null;
@@ -85,6 +87,7 @@ class App extends Component {
           handleTouchingLED={(i, j) => this.handleTouchingLED(i, j)}
           handleTouchingLEDEnded={() => this.handleTouchingLEDEnded()}
         />
+        <CallToActionModal active={this.state.motionSensor && !this.state.isTouching} />
         <LEDSquaresRenderer
           height={touchAreaHeight}
           width={touchAreaWidth}
