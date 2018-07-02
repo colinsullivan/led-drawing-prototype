@@ -11,7 +11,9 @@
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
     "redux": "^4.0.0",
-    "ws": "^5.2.1"
+    "ws": "^5.2.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,9 +23,7 @@
     "build_server": "babel src/common -d build_server/common && babel src/server -d build_server/server && babel src/server_main.js -o build_server/server_main.js",
     "build": "npm run build_react && npm run build_server",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:8080",
   "babel": {
