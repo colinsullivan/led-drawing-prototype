@@ -57,9 +57,9 @@ class App extends Component {
   handleWebSocketOpened () {
     console.log("ws opened");
   }
-  handleWebSocketMessage (msg) {
-    console.log("msg");
-    console.log(msg);
+  handleWebSocketMessage (e) {
+    let newState = JSON.parse(e.data);
+    this.setState(newState);
   }
   handleTouchingLED(i, j) {
     this.setState({

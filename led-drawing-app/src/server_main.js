@@ -82,6 +82,7 @@ const pixelEndState = {
   b: 0
 };
 
+
 server.on('connection', function (ws) {
 
   let unsubscribe = store.subscribe(function () {
@@ -126,6 +127,10 @@ server.on('connection', function (ws) {
     pixelTweens[pixelIndex] = pixelTween;
     //all_off(pixelBuffer);
     //pixelBuffer.setPixel(pixelIndex, 100, 255, 100);
+  });
+
+  ws.on('close', function () {
+    unsubscribe();
   });
 
 

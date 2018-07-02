@@ -37,7 +37,7 @@ class MovementDetectorController {
       this.store.dispatch({
         type: MOTION_SENSOR_CHANGED,
         payload: {
-          pinValue
+          pinValue: Math.random()
         }
       });
     }
