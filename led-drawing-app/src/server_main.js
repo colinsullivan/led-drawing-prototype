@@ -12,9 +12,14 @@ import WebSocket from 'ws';
 import createOPCStrand from 'opc/strand';
 import TWEEN from '@tweenjs/tween.js';
 
+import configureStore from './common/configureStore';
+
 import FadecandyController from './server/FadecandyController';
+import MovementDetectorController from './server/MovementDetectorController';
 
 import { WEBSOCKET_PORT, COLS, ROWS } from './common/constants';
+
+const store = configureStore();
 
 const NUM_PIXELS = COLS * ROWS;
 const server = new WebSocket.Server({
@@ -27,6 +32,14 @@ const FPS = 30;
 const FRAME_DUR_MS = 1000 / FPS;
 const LOOP_DUR_MS = 10000;
 const LOOP_NUM_FRAMES = Math.floor(LOOP_DUR_MS / FRAME_DUR_MS);
+
+const movementController = new MovementDetectorController(store);
+
+store.subscribe(function () {
+  let state = store.getState();
+  console.log("state");
+  console.log(state);
+});
 
 var loopFrameIndex = 0;
 var pixelBuffer = createOPCStrand(NUM_PIXELS);
@@ -70,7 +83,18 @@ const pixelEndState = {
 };
 
 server.on('connection', function (ws) {
-  console.log("connection!");
+
+  let unsubscribe = store.subscribe(function () {
+    let state = store.getState();
+
+    try {
+      ws.send(JSON.stringify(state));
+    } catch (err) {
+      console.log("Error sending new state over websocket, it probably closed");
+    }
+
+  });
+
   ws.on('message', function (msg) {
     let data = JSON.parse(msg);
     let pixelIndex = ledAddressToPixelBufferIndex(data.activeLED);
@@ -103,6 +127,8 @@ server.on('connection', function (ws) {
     //all_off(pixelBuffer);
     //pixelBuffer.setPixel(pixelIndex, 100, 255, 100);
   });
+
+
 });
 
 console.log("Hello!");
