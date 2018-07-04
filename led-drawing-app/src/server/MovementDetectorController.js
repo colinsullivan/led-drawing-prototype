@@ -14,7 +14,7 @@ import { MOTION_SENSOR_CHANGED } from '../common/actionTypes';
 
 const b = bonescript;
 const DISTANCE_INPUT_PIN = 'P8_7';
-const READ_INTERVAL_MS = 500;
+const READ_INTERVAL_MS = 200;
 
 class MovementDetectorController {
   constructor(store) {
