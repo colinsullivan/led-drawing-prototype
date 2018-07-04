@@ -5,18 +5,23 @@
     clone: yes
     update: yes
   register: gitrepo
+  become: yes
+  become_user: "{{ deploy_user }}"
 
 - name: npm install
   shell: npm install
   register: npm_finished
   failed_when: '"ERR!" in npm_finished.stderr'
-  when: gitrepo.changed
+  when: gitrepo.changed or force_build
   args:
     chdir: "{{ deploy_dir }}/led-drawing-app"
+  become: yes
+  become_user: "{{ deploy_user }}"
 
 - name: build app
   shell: npm run build
-  when: gitrepo.changed
+  when: gitrepo.changed or force_build
   args:
     chdir: "{{ deploy_dir }}/led-drawing-app"
-
+  become: yes
+  become_user: "{{ deploy_user }}"

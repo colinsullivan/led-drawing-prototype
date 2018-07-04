@@ -1,0 +1,13 @@
+[Unit]
+Description=led drawing app server
+Documentation=https://github.com/colinsullivan/led-drawing-prototype
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+ExecStart=/usr/bin/node {{ deploy_dir }}/led-drawing-app/build_server/server_main.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

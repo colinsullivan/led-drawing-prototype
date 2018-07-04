@@ -2,9 +2,66 @@
 - name: nginx for serving web gui
   apt:
     name: nginx
-    state: installed
+    state: present
+
+- name: nginx started
+  systemd:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: nginx conf
+  template:
+    src: led-drawing-app-site.j2
+    dest: /etc/nginx/sites-available/led-drawing-app-site
+  register: nginxconf
+
+- name: disable default nginx conf
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  register: nginxdefaultconf
+
+- name: enable nginx conf
+  file:
+    path: /etc/nginx/sites-enabled/led-drawing-app-site
+    src: /etc/nginx/sites-available/led-drawing-app-site
+    state: link
+  register: nginxconfinstall
+
+- name: reload nginx conf
+  systemd:
+    name: nginx
+    state: reloaded
+  when: nginxconf.changed or nginxdefaultconf.changed or nginxconfinstall.changed
 
 - name: deploy code
   include_tasks: deploy_code.yml
-  become: yes
-  become_user: "{{ deploy_user }}"
+
+- name: www-data user to gpio group
+  user:
+    name: www-data
+    groups: gpio
+    append: yes
+
+- name: server systemd config
+  template:
+    src: led-drawing-app.service.j2
+    dest: /lib/systemd/system/led-drawing-app.service
+    owner: root
+    group: root
+    mode: 0644
+  register: systemdconf
+
+- name: server systemd process restarted when code changes
+  systemd:
+    daemon_reload: yes
+    name: led-drawing-app
+    state: restarted
+  when: systemdconf.changed or gitrepo.changed
+
+- name: server systemd process is enabled and running
+  systemd:
+    name: led-drawing-app
+    enabled: yes
+    state: started
