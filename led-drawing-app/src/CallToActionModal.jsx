@@ -17,9 +17,10 @@ class CallToActionModal extends React.Component {
       zIndex: 1,
       height: '100%',
       width: '100%',
-      background: 'rgba(100, 200, 100, 0.5)',
-      color: 'rgb(100,200,100)',
-      textAlign: 'center'
+      background: 'rgba(242, 176, 53, 0.1)',
+      color: 'rgb(242, 113, 39)',
+      textAlign: 'center',
+      transition: 'opacity 1s ease'
     };
 
     let textContainerStyle = {
@@ -30,9 +31,9 @@ class CallToActionModal extends React.Component {
     };
 
     if (!this.props.active) {
-      containerStyle.display = 'none';
+      containerStyle.opacity = 0.0;
     } else {
-      containerStyle.display = 'block';
+      containerStyle.opacity = 1.0;
     }
 
     return (

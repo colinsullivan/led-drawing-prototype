@@ -35,8 +35,18 @@ html, body, div#root {
   }
 }
 
+@keyframes growingShrinkingText {
+  0% {
+    transform: scale(1.0);
+  }
+
+  100% {
+    transform: scale(1.5);
+  }
+}
+
 .call-to-action-modal-text {
-  animation-name: crazyText;
+  animation-name: growingShrinkingText;
   animation-duration: 4s;
 
   animation-iteration-count: infinite;
