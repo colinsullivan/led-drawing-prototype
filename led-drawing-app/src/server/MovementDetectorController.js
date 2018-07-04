@@ -30,14 +30,14 @@ class MovementDetectorController {
 
   }
 
-  handlePinRead (pinValue) {
+  handlePinRead (pin) {
     let state = this.store.getState();
 
-    if (state.motionSensor !== pinValue) {
+    if (state.motionSensor !== pin.value) {
       this.store.dispatch({
         type: MOTION_SENSOR_CHANGED,
         payload: {
-          pinValue
+          pinValue: pin.value
         }
       });
     }

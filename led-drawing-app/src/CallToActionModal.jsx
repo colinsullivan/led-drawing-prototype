@@ -31,6 +31,8 @@ class CallToActionModal extends React.Component {
 
     if (!this.props.active) {
       containerStyle.display = 'none';
+    } else {
+      containerStyle.display = 'block';
     }
 
     return (
