@@ -1,5 +1,7 @@
+nodejs_version: "8.x"
 deploy_user: colin
 deploy_dir: "/home/colin/led-drawing-prototype"
+force_build: false
 user_default_groups: "debian,adm,kmem,dialout,cdrom,floppy,audio,dip,video,plugdev,users,systemd-journal,i2c,bluetooth,netdev,cloud9ide,xenomai,weston-launch,tisdk,spi,admin,eqep,pwm,gpio"
 beaglebone: true
 beaglebone_wifi_ssid: "owabb"
