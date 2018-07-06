@@ -30,3 +30,8 @@ This will install all dependencies, configuration, and deploy the app on the Bea
 To just deploy:
 
     $ ansible-playbook ansible/site_deploy.yml
+
+## Desired TODOs
+* Clear button so you don't have to wait for animations to fade away
+* Color picker?
+* connection icon for debugging
